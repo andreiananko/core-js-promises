@@ -108,10 +108,10 @@ function getFirstPromiseResult(promises) {
     promises.forEach((promise) => {
       promise
         .then((value) => {
-          resolve(value); // Resolve with the value of the first resolved promise
+          resolve(value);
         })
         .catch((error) => {
-          reject(error); // Reject with the error of the first rejected promise
+          reject(error);
         });
     });
   });
@@ -128,8 +128,25 @@ function getFirstPromiseResult(promises) {
  * [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] => Promise fulfilled with [1, 2, 3]
  * [Promise.resolve(1), Promise.reject(2), Promise.resolve(3)] => Promise rejected with 2
  */
-function getAllOrNothing(/* promises */) {
-  throw new Error('Not implemented');
+function getAllOrNothing(promises) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    let count = 0;
+
+    promises.forEach((promise, index) => {
+      promise
+        .then((value) => {
+          results[index] = value;
+          count += 1;
+          if (count === promises.length) {
+            resolve(results);
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  });
 }
 
 /**
