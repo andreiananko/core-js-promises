@@ -188,14 +188,11 @@ function queuPromises(promises) {
   let chain = Promise.resolve();
 
   promises.forEach((promise) => {
-    chain = chain
-      .then((value) => {
-        result += value;
-        return promise;
-      })
-      .then((value) => {
+    chain = chain.then(() => {
+      return promise.then((value) => {
         result += value;
       });
+    });
   });
 
   return chain.then(() => result);
