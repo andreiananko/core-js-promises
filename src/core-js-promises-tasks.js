@@ -20,13 +20,12 @@
 function getPromise(number) {
   return new Promise((resolve, reject) => {
     if (number >= 0) {
-      resolve(number); // Fulfill the promise with the input number
+      resolve(number);
     } else {
-      reject(new Error('Number is negative')); // Reject the promise with an error
+      reject(new Error('Number is negative'));
     }
   });
 }
-
 
 /**
  * Returns a promise that will always fulfilled and return a value of success or fail.
@@ -40,8 +39,16 @@ function getPromise(number) {
  * Promise.resolve('success') => promise that will be fulfilled with 'success' value
  * Promise.reject('fail')     => promise that will be fulfilled with 'fail' value
  */
-function getPromiseResult(/* source */) {
-  throw new Error('Not implemented');
+function getPromiseResult(source) {
+  return new Promise((resolve) => {
+    source
+      .then(() => {
+        resolve('success');
+      })
+      .catch(() => {
+        resolve('fail');
+      });
+  });
 }
 
 /**
